@@ -1,8 +1,21 @@
+import axios from 'axios';
+
 /*
   STEP 1: using axios, send a GET request to the following URL
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
+
+const cards = document.querySelector('.cards');
+
+axios
+.get("https://api.github.com/users/everybodyneedsis")
+.then(response => { 
+  console.log(response);
+  const myCard = gitCards(response.data);
+  cards.appendChild(myCard);
+});
+
 
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
@@ -49,6 +62,54 @@ const followersArray = [];
       </div>
     </div>
 */
+
+function gitCards( object ) {
+  const userCard = document.createElement('div');
+  const image = document.createElement('img');
+  const cardContent = document.createElement('div');
+  const name = document.createElement('h3');
+  const username = document.createElement('p');
+  const location = document.createElement('p');
+  const profile = document.createElement('p');
+  const link = document.createElement('a');
+  const followers = document.createElement('p');
+  const following = document.createElement('p');
+  const bio = document.createElement('p');
+
+  userCard.classList.add("userCard");
+  cardContent.classList.add("card-info");
+  name.classList.add("name");
+  username.classList.add("username");
+
+  image.src = object.avatar_url;
+  name.textContent = object.name;
+  username.textContent = object.login;
+  location.textContent = `Location: ${object.location}`;
+  profile.textContent = "Profile: ";
+  link.href = object.html_url;
+  link.textContent = "Link to Profile";
+  followers.textContent = `Followers: ${object.followers}`;
+  following.textContent = `Following: ${object.following}`;
+  bio.textContent = `Bio: ${object.bio}`;
+
+  userCard.appendChild(image);
+  userCard.appendChild(cardContent);
+  cardContent.appendChild(name);
+  cardContent.appendChild(username);
+  cardContent.appendChild(location);
+  cardContent.appendChild(profile);
+  cardContent.appendChild(followers);
+  cardContent.appendChild(following);
+  cardContent.appendChild(bio);
+  profile.appendChild(link);
+
+  return username;
+
+
+
+}
+
+
 
 /*
   List of LS Instructors Github username's:
