@@ -41,7 +41,18 @@ axios
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+
+
+
+/*
+  List of LS Instructors Github username's:
+    tetondan
+    dustinmyers
+    justsml
+    luishrd
+    bigknell
+*/
+
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
@@ -71,7 +82,7 @@ function gitCards( object ) {
   const username = document.createElement('p');
   const location = document.createElement('p');
   const profile = document.createElement('p');
-  const link = document.createElement('a');
+  const address = document.createElement('a');
   const followers = document.createElement('p');
   const following = document.createElement('p');
   const bio = document.createElement('p');
@@ -86,8 +97,8 @@ function gitCards( object ) {
   username.textContent = object.login;
   location.textContent = `Location: ${object.location}`;
   profile.textContent = "Profile: ";
-  link.href = object.html_url;
-  link.textContent = "Link to Profile";
+  address.href = object.html_url;
+  address.textContent = "Link to Profile";
   followers.textContent = `Followers: ${object.followers}`;
   following.textContent = `Following: ${object.following}`;
   bio.textContent = `Bio: ${object.bio}`;
@@ -101,21 +112,23 @@ function gitCards( object ) {
   cardContent.appendChild(followers);
   cardContent.appendChild(following);
   cardContent.appendChild(bio);
-  profile.appendChild(link);
+  profile.appendChild(address);
 
-  return username;
-
-
-
+  return userCard;
 }
 
 
+const followersArray = ['https://api.github.com/users/tetondan', 'https://api.github.com/users/dustinmyers', 'https://api.github.com/users/justsml', 'https://api.github.com/users/luishrd', 'https://api.github.com/users/bigknell'];
 
-/*
-  List of LS Instructors Github username's:
-    tetondan
-    dustinmyers
-    justsml
-    luishrd
-    bigknell
-*/
+followersArray.forEach(link => {
+  axios.get(link)
+  .then(res => {
+    console.log(res.data);
+    const followingCard = gitCards(res.data);
+    cards.appendChild(followingCard)
+  })
+})
+
+
+
+
